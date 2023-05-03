@@ -1,0 +1,63 @@
+/* Styles for AppComponent */
+
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: #fff;
+  padding: 0.7rem;
+  border-bottom: 0.1rem solid;
+  border-color: #e7e7e7;
+}
+
+h1 {
+  color: #007bff;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+a,
+a:visited,
+a:hover,
+a:active {
+  color: inherit;
+}
+
+a:hover {
+  color: #007bff;
+  cursor: pointer;
+}
+
+.login {
+  color: #353c45;
+  background-color: #fff;
+  font-weight: bold;
+  border: 0;
+  border-radius: 0.2rem;
+  margin-left: 1rem;
+  padding: 0.5rem;
+}
+
+.register {
+  color: #fff;
+  background-color: #007bff;
+  font-weight: bold;
+  border: 0;
+  border-radius: 0.5rem;
+  margin-left: 1rem;
+  padding: 0.5rem;
+}
+
+.login:hover {
+  cursor: pointer;
+  color: #007bff;
+}
+
+.register:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+
