@@ -1,6 +1,5 @@
 .posts-container {
   margin: 0 auto;
-  padding-top: 1rem;
   display: flex;
   flex-direction: column;
   background-color: #f7f7f7;
