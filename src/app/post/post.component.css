@@ -1,0 +1,77 @@
+.post {
+  display: flex;
+  flex-direction: column;
+  min-height: 10rem;
+  margin: 1rem 0.5rem 0;
+  box-shadow: 0 0.2rem 0.2rem rgb(0 0 0 / 30%);
+  background-color: #fff;
+}
+
+.date-container {
+  background-color: #e7e7e7;
+  padding: 0.2rem;
+}
+
+.title-container {
+  background-color: #e7e7e7;
+  padding: 0.2rem;
+}
+
+.post-container {
+  display: flex;
+  flex-direction: row;
+  min-height: 10rem;
+}
+
+.meta-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  background-color: #f7f7f7;
+  justify-content: space-between;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  padding: 0.5rem;
+  justify-content: space-between;
+}
+
+.buttons-container {
+  border-top: 0.1rem solid;
+  border-color: #e7e7e7;
+  padding-top: 0.5rem;
+}
+
+.post-button {
+  padding: 0.2rem;
+  margin-right: 0.5rem;
+}
+
+.like-button,
+.hate-button,
+.edit-button,
+.delete-button {
+  font-size: 2rem;
+  padding: 0.2rem;
+  margin-right: 0.5rem;
+}
+
+.like-button {
+  color: #007bff;
+}
+
+.hate-button {
+  color: rgb(143, 23, 23);
+}
+
+.like-button:hover,
+.hate-button:hover,
+.edit-button:hover,
+.delete-button:hover  {
+  cursor: pointer;
+  opacity: 0.5;
+}
+

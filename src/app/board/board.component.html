@@ -1,25 +1,5 @@
 <section class="posts-container">
-  <div *ngFor="let post of posts" class="post">
-    <div class="title-container">
-      <h2>{{ post.title }}</h2>
-    </div>
-    <div class="date-container">
-      <p>{{ post.date }}</p>
-    </div>
-    <div class="post-container">
-      <div class="meta-container">
-        <p>{{ post.creator }}</p>
-        <p>{{ post.tag }}</p>
-      </div>
-      <div class="content-container">
-        <p>{{ post.content }}</p>
-        <div class="buttons-container">
-          <button class="post-button">Like</button>
-          <button class="post-button">Hate</button>
-          <button class="post-button">Edit</button>
-          <button class="post-button">Delete</button>
-        </div>
-      </div>
-    </div>
+  <div *ngFor="let post of posts">
+    <app-post [post]="post"></app-post>
   </div>
 </section>

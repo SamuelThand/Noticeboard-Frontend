@@ -1,1 +1,23 @@
-<p>post works!</p>
+<div class="post">
+  <div class="title-container">
+    <h2>{{ post.title }}</h2>
+  </div>
+  <div class="date-container">
+    <p>{{ post.date }}</p>
+  </div>
+  <div class="post-container">
+    <div class="meta-container">
+      <p>{{ post.creator }}</p>
+      <p>{{ post.tag }}</p>
+    </div>
+    <div class="content-container">
+      <p>{{ post.content }}</p>
+      <div class="buttons-container">
+        <i class="ion-heart like-button"></i>
+        <i class="ion-heart-broken hate-button"></i>
+        <i class="ion-edit edit-button"></i>
+        <i class="ion-trash-b delete-button"></i>
+      </div>
+    </div>
+  </div>
+</div>
