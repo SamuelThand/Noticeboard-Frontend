@@ -1,4 +1,8 @@
 <!DOCTYPE html>
 
-<input type="text" placeholder="Search">
-<!-- <input type="text" [(ngModel)]="searchString" (ngModelChange)="onSearchChange($event)" placeholder="kurskod eller namn..."> -->
+<input
+  [(ngModel)]="searchString"
+  (ngModelChange)="onSearchChange()"
+  type="text"
+  placeholder="Filter by user, keyword.."
+/>
