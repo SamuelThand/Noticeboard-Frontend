@@ -8,6 +8,9 @@ import { Component } from '@angular/core';
 })
 export class RegisterComponent {
   formSubmitted = false;
+  registerFailed = false; // TODO lägg till popup för failad register
+  //TODO blå outline när form blir targeted
+
   form: FormGroup = new FormGroup({
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),

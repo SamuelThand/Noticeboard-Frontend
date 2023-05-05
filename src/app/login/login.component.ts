@@ -1,3 +1,4 @@
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,11 +7,21 @@ import { Component } from '@angular/core';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  protected isPostFailed = false;
-  protected form: any = {
-    username: null,
-    password: null
-  };
+  formSubmitted = false;
+  loginFailed = false; // TODO lägg till popup för failad login
+  //TODO blå outline när form blir targeted
+
+  form: FormGroup = new FormGroup({
+    userName: new FormControl(null, Validators.required),
+    password: new FormControl(null, Validators.required)
+  });
+
+  onSubmit() {
+    this.formSubmitted = true;
+    if (this.form.valid) {
+      this.login();
+    }
+  }
 
   login() {
     // const username = this.form.username;
@@ -23,5 +34,10 @@ export class LoginComponent {
     //     }
     //   });
     // }
+  }
+
+  showErrorBorder(controlName: string) {
+    const control = this.form.get(controlName);
+    return control?.invalid && control?.errors && this.formSubmitted;
   }
 }

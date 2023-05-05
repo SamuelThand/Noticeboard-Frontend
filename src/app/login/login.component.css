@@ -38,23 +38,8 @@ label {
 
 .form-control {
   padding: 0.2rem;
-  border-radius: 0.1rem;
-}
-
-.required-alert {
-  color: #721c24;
-  background-color: #fd9ca488;
-  border-color: #721c24;
-  padding: 0.5rem 1.25rem;
-  margin-bottom: 1rem;
-  border: 0.1rem solid;
-  border-radius: 0.25rem;
-}
-
-#login-failed {
-  margin-top: 1rem;
-  margin-bottom: 0;
-  text-align: center;
+  border-radius: 0.2rem;
+  border: 0.1rem solid #e7e7e7;
 }
 
 input:focus {
@@ -76,17 +61,6 @@ button:hover {
   opacity: 0.5;
 }
 
-.create-new-user,
-.create-new-user:visited,
-.continue-as-guest,
-.continue-as-guest:visited {
-  margin-top: 0.8rem;
-  align-self: center;
-  font-size: 0.8rem;
-  color: #007bff;
-}
-
-.create-new-user:hover,
-.continue-as-guest:hover {
-  opacity: 0.5;
+.error-border {
+  border-color: red;
 }

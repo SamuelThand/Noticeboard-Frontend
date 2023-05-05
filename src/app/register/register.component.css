@@ -31,20 +31,9 @@ form {
   flex-direction: column;
 }
 
-.sex-group {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  margin-top: 1rem;
-}
-
 label {
   margin-bottom: 0.5rem;
   margin-top: 0.5rem;
-}
-
-.radio-pair label {
-  padding: 0.5rem;
 }
 
 .form-control {

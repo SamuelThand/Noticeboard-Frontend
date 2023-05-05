@@ -1,62 +1,27 @@
 <!DOCTYPE html>
 
-<!-- TODO enforca minlength här eller ej? -->
-<!-- TODO Bra eller dåligt att informera om min/maxlängd vid inloggning? -->
 <div class="card">
   <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" class="login-image" />
-
-  <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="username">Username</label>
       <input
         type="text"
         class="form-control"
-        name="username"
-        required
-        minlength="3"
-        [(ngModel)]="form.username"
-        #username="ngModel"
+        formControlName="userName"
+        [ngClass]="{ 'error-border': showErrorBorder('userName') }"
       />
-      <div *ngIf="username.errors && f.submitted" class="required-alert">
-        <div *ngIf="username.errors['required']" role="alert">
-          Enter your username
-        </div>
-        <div *ngIf="username.errors['minlength']" role="alert">
-          Username is too short
-        </div>
-      </div>
     </div>
     <div class="form-group">
       <label for="password">Password</label>
       <input
         type="password"
         class="form-control"
-        name="password"
-        [(ngModel)]="form.password"
-        required
-        minlength="6"
-        #password="ngModel"
+        formControlName="password"
+        [ngClass]="{ 'error-border': showErrorBorder('password') }"
       />
-      <div
-        *ngIf="password.errors && f.submitted"
-        class="required-alert"
-        role="alert"
-      >
-        <div *ngIf="password.errors['required']">Enter your password</div>
-        <div *ngIf="password.errors['minlength']">Password is too short</div>
-      </div>
       <div class="form-group">
-        <button (click)="login()">Sign in</button>
-      </div>
-      <div class="form-group">
-        <div
-          *ngIf="isPostFailed"
-          class="required-alert"
-          role="alert"
-          id="login-failed"
-        >
-          Login failed
-        </div>
+        <button type="submit">Sign in</button>
       </div>
     </div>
   </form>
