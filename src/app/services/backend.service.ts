@@ -26,7 +26,7 @@ export class BackendService {
     });
   }
 
-  signIn(username: string, password: string) {
+  signIn(username: string, password: string): Observable<any> {
     return this.http.post<User>(
       this.userEndpoint + 'signin',
       {
