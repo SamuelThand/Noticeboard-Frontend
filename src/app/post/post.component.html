@@ -3,7 +3,7 @@
     <h2>{{ post.title }}</h2>
   </div>
   <div class="date-container">
-    <p>{{ post.date }}</p>
+    <p>{{ post.date | date : 'yyyy-MM-dd, hh:mm' }}</p>
   </div>
   <div class="post-container">
     <div class="meta-container">

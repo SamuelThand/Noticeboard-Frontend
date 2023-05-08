@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { BackendService } from '../services/backend.service';
+import { DatePipe } from '@angular/common';
 import { Post } from '../models/post.model';
 
 @Component({
@@ -6,28 +8,20 @@ import { Post } from '../models/post.model';
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.css']
 })
-export class BoardComponent {
+export class BoardComponent implements OnInit {
+  private backendService: BackendService;
+  private datePipe: DatePipe;
   protected searchString: string = '';
   protected posts: Post[] = [];
 
-  protected testPost: Post = {
-    _id: 'id123',
-    creator: 'Skapare skaparesson',
-    title: 'Titel',
-    content: 'blablablabla this is my post',
-    date: new Date(),
-    tag: 'TAG'
-  };
+  constructor(backendService: BackendService) {
+    this.datePipe = new DatePipe('en-US');
+    this.backendService = backendService;
+  }
 
-  constructor() {
-    this.posts = Array.from({ length: 20 }, () => this.testPost);
-    this.posts.push({
-      _id: 'idaefef123',
-      creator: 'Skaaefaefpaaefaefre skaefaaefaefaefparesson',
-      title: 'Taefaefaitel',
-      content: 'blabefaeflablabla thiaefas isefaef my post',
-      date: new Date(),
-      tag: 'TAG'
+  ngOnInit(): void {
+    this.backendService.getPosts().subscribe((posts: Post[]) => {
+      this.posts = posts;
     });
   }
 
@@ -36,14 +30,18 @@ export class BoardComponent {
   }
 
   shouldDisplayPost(post: Post): boolean {
-    if (
+    const formattedDate = this.datePipe?.transform(
+      post.date ?? '',
+      'yyyy-MM-dd, hh:mm'
+    );
+    const includesDate = formattedDate?.includes(this.searchString) ?? false;
+
+    return (
       post.title.includes(this.searchString) ||
       post.creator.includes(this.searchString) ||
-      post.date.toDateString().includes(this.searchString) || //TODO Modifiera så det funkar
       post.tag.includes(this.searchString) ||
-      post.content.includes(this.searchString)
-    )
-      return true;
-    else return false;
+      post.content.includes(this.searchString) ||
+      includesDate
+    );
   }
 }
