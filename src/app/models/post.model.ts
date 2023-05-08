@@ -4,5 +4,6 @@ export interface Post {
   title: string;
   content: string;
   date: Date;
+  lastEdited?: Date;
   tag: string;
 }

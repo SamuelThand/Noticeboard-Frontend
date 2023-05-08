@@ -1,5 +1,7 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BackendService } from '../services/backend.service';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -7,6 +9,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  private backendService: BackendService;
+  private router: Router;
   formSubmitted = false;
   loginFailed = false; // TODO lägg till popup för failad login
   //TODO blå outline när form blir targeted
@@ -16,6 +20,11 @@ export class LoginComponent {
     password: new FormControl(null, Validators.required)
   });
 
+  constructor(backendService: BackendService, router: Router) {
+    this.backendService = backendService;
+    this.router = router;
+  }
+
   onSubmit() {
     this.formSubmitted = true;
     if (this.form.valid) {
@@ -24,16 +33,19 @@ export class LoginComponent {
   }
 
   login() {
-    // const username = this.form.username;
-    // const password = this.form.password;
-    // if (username && password) {
-    //   this.backendService.signIn(username, password).subscribe({
-    //     next: () => this.router.navigateByUrl('/admin-home'),
-    //     error: () => {
-    //       this.isPostFailed = true;
-    //     }
-    //   });
-    // }
+    const username = this.form.value['userName'];
+    const password = this.form.value['password'];
+    if (username && password) {
+      this.backendService.signIn(username, password).subscribe({
+        next: () => {
+          this.router.navigateByUrl('/');
+        },
+        error: () => {
+          // TODO: Remove this and provide a proper response.
+          console.log('Miss');
+        }
+      });
+    }
   }
 
   showErrorBorder(controlName: string) {
