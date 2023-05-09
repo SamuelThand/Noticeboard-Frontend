@@ -8,8 +8,8 @@ import { User } from '../models/user.model';
   providedIn: 'root'
 })
 export class BackendService {
-  // #url: string = 'http://localhost:3000/';
-  #url: string = 'http://127.0.0.1:3000/';
+  #url: string = 'http://localhost:3000/';
+  // #url: string = 'http://127.0.0.1:3000/';
   private http: HttpClient;
   private postEndpoint = this.#url + 'posts/';
   private userEndpoint = this.#url + 'users/';

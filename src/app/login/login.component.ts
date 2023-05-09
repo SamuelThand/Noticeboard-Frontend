@@ -37,12 +37,14 @@ export class LoginComponent {
     const password = this.form.value['password'];
     if (username && password) {
       this.backendService.signIn(username, password).subscribe({
-        next: () => {
+        next: (result) => {
           this.router.navigateByUrl('/');
+          console.log(result);
         },
         error: () => {
           // TODO: Remove this and provide a proper response.
-          console.log('Miss');
+          this.showErrorBorder('userName');
+          this.showErrorBorder('password');
         }
       });
     }

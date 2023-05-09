@@ -37,11 +37,9 @@ export class AppComponent implements OnInit {
   loginStatus() {
     this.authService.authCheck(
       () => {
-        console.log('logged in');
         this.isLoggedIn = true;
       },
       () => {
-        console.log('not logged in');
         this.isLoggedIn = false;
       }
     );
