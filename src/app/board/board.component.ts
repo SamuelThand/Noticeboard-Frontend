@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { NewpostComponent } from '../newpost/newpost.component';
 import { Post } from '../models/post.model';
 
 @Component({
@@ -19,7 +21,7 @@ export class BoardComponent {
     tag: 'TAG'
   };
 
-  constructor() {
+  constructor(public newPostDialog: MatDialog) {
     this.posts = Array.from({ length: 20 }, () => this.testPost);
     this.posts.push({
       _id: 'idaefef123',
@@ -45,5 +47,16 @@ export class BoardComponent {
     )
       return true;
     else return false;
+  }
+
+  newPost(): void {
+    const dialog = this.newPostDialog.open(NewpostComponent, {
+      width: '30%',
+      data: { username: '', password: '' }
+    });
+
+    dialog.afterClosed().subscribe((result) => {
+      console.log(result);
+    });
   }
 }
