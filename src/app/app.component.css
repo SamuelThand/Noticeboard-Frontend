@@ -31,7 +31,7 @@ a:hover {
   cursor: pointer;
 }
 
-.login {
+.login, .logout {
   color: #353c45;
   background-color: #fff;
   font-weight: bold;
@@ -54,6 +54,11 @@ a:hover {
 .login:hover {
   cursor: pointer;
   color: #007bff;
+}
+
+.logout:hover {
+  cursor: pointer;
+  color: #ff0000;
 }
 
 .register:hover {

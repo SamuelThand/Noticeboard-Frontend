@@ -46,4 +46,10 @@ export class AppComponent implements OnInit {
       }
     );
   }
+
+  onLogout() {
+    this.backendService.signOut().subscribe(() => {
+      this.loginStatus();
+    });
+  }
 }
