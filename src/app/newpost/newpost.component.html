@@ -1,7 +1,7 @@
 <h2 mat-dialog-title>New post</h2>
 
 <mat-dialog-content class="new-post-form-container">
-  <form class="new-post-form">
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="new-post-form">
     <mat-form-field>
       <mat-label>Title</mat-label>
       <input
@@ -9,7 +9,7 @@
         maxlength="50"
         matInput
         placeholder="Title"
-        [(ngModel)]="data.title"
+        formControlName="title"
       />
     </mat-form-field>
 
@@ -21,7 +21,7 @@
         maxlength="1500"
         matInput
         placeholder="Your post.."
-        [(ngModel)]="data.content"
+        formControlName="content"
         type="text"
       >
       </textarea>
@@ -34,15 +34,14 @@
         maxlength="10"
         matInput
         placeholder="Tag"
-        [(ngModel)]="data.tag"
+        formControlName="tag"
       />
     </mat-form-field>
+    <mat-dialog-actions class="action-buttons-container">
+      <button mat-button class="post" type="submit" cdkFocusInitial>
+        Post
+      </button>
+      <button mat-button class="cancel" (click)="onNoClick()">Cancel</button>
+    </mat-dialog-actions>
   </form>
 </mat-dialog-content>
-
-<mat-dialog-actions class="action-buttons-container">
-  <button mat-button class="post" [mat-dialog-close]="data" cdkFocusInitial>
-    Post
-  </button>
-  <button mat-button class="cancel" (click)="onNoClick()">Cancel</button>
-</mat-dialog-actions>

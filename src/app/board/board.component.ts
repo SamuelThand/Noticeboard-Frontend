@@ -49,9 +49,10 @@ export class BoardComponent implements OnInit {
 
   newPost(): void {
     const dialog = this.newPostDialog.open(NewpostComponent, {
-      width: '30%',
-      data: { username: '', password: '' }
+      width: '30%'
     });
+
+    //TODO post stuff
 
     dialog.afterClosed().subscribe((result) => {
       console.log(result);
