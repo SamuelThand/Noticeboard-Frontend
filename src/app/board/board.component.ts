@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BackendService } from '../services/backend.service';
 import { DatePipe } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { NewpostComponent } from '../newpost/newpost.component';
 import { Post } from '../models/post.model';
 
 @Component({
@@ -14,7 +16,7 @@ export class BoardComponent implements OnInit {
   protected searchString: string = '';
   protected posts: Post[] = [];
 
-  constructor(backendService: BackendService) {
+  constructor(backendService: BackendService, public newPostDialog: MatDialog) {
     this.datePipe = new DatePipe('en-US');
     this.backendService = backendService;
   }
@@ -43,5 +45,16 @@ export class BoardComponent implements OnInit {
       post.content.includes(this.searchString) ||
       includesDate
     );
+  }
+
+  newPost(): void {
+    const dialog = this.newPostDialog.open(NewpostComponent, {
+      width: '30%',
+      data: { username: '', password: '' }
+    });
+
+    dialog.afterClosed().subscribe((result) => {
+      console.log(result);
+    });
   }
 }
