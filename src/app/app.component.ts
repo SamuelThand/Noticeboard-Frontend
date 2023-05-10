@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { BackendService } from './services/backend.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,7 @@ export class AppComponent implements OnInit {
     this.authService = authService;
     this.backendService = backendService;
     this.router = router;
-    this.isLoggedIn = false;
+    this.isLoggedIn = false; //TODO Kalla loginstatusfunktion så att den istället evaluerar och returnar true/false direkt
   }
 
   ngOnInit(): void {

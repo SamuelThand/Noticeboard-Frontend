@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 import { BackendService } from '../services/backend.service';
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';

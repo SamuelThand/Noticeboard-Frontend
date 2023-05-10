@@ -10,7 +10,7 @@ import { User } from '../models/user.model';
 export class AuthService {
   private router: Router;
   private backendService: BackendService;
-  private userSubject: BehaviorSubject<User> | null = null;
+  private userSubject: BehaviorSubject<User> | null = null; //TODO ska vi persista detta i frontend eller hämta färskt från server varje gång.
   user$: Observable<User> | null = null;
 
   constructor(router: Router, backendService: BackendService) {
@@ -46,3 +46,6 @@ export class AuthService {
     this.user$ = null;
   }
 }
+
+//TODO method för att kolla om det finns en session
+//TODO en metod för att hämta ut user objectet för att jämföra
