@@ -37,6 +37,10 @@ export class AppComponent implements OnInit {
   loginStatus() {
     this.authService.authCheck(
       () => {
+        // TODO: Get stored user data like this
+        this.authService.user$?.subscribe((user) => {
+          console.log('Passed from authservice: ' + JSON.stringify(user));
+        });
         this.isLoggedIn = true;
       },
       () => {

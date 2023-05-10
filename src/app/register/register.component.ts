@@ -1,6 +1,7 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BackendService } from '../services/backend.service';
 import { Component } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent {
   private backendService: BackendService;
+  private snackBar: MatSnackBar;
   private router: Router;
   formSubmitted = false;
   registerFailed = false; // TODO lägg till popup för failad register
@@ -37,8 +39,13 @@ export class RegisterComponent {
     ])
   });
 
-  constructor(backendService: BackendService, router: Router) {
+  constructor(
+    backendService: BackendService,
+    snackBar: MatSnackBar,
+    router: Router
+  ) {
     this.backendService = backendService;
+    this.snackBar = snackBar;
     this.router = router;
   }
 
@@ -51,11 +58,18 @@ export class RegisterComponent {
 
   private submit() {
     this.backendService.signUp(this.form.value).subscribe({
-      next: () => {
-        this.router.navigateByUrl('/');
+      next: (message) => {
+        console.log(message);
+
+        this.snackBar.open('User has been created', 'Close', {
+          duration: 3000
+        });
+        this.router.navigateByUrl('/login');
       },
-      error: () => {
-        console.log('Miss');
+      error: (message) => {
+        this.snackBar.open(message.error.message, 'Close', {
+          duration: 3000
+        });
       }
     });
   }

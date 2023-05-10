@@ -10,6 +10,7 @@ import { LoginComponent } from './login/login.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NewpostComponent } from './newpost/newpost.component';
 import { NgModule } from '@angular/core';
 import { PostComponent } from './post/post.component';
@@ -36,6 +37,7 @@ import { SearchComponent } from './search/search.component';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSnackBarModule,
     HttpClientModule
   ],
   providers: [DatePipe],
