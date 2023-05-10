@@ -15,40 +15,47 @@ import { User } from '../models/user.model';
 })
 export class BoardComponent implements OnInit, OnDestroy {
   protected currentUser: User | null;
-  private currentUserSubscription: Subscription | null;
-  private datePipe: DatePipe;
+  #currentUserSubscription: Subscription | null;
+  #backendService: BackendService;
+  #authService: AuthService;
+  public newPostDialog: MatDialog;
+  #datePipe: DatePipe;
   protected searchString: string = '';
   protected posts: Post[] = [];
 
   constructor(
-    private backendService: BackendService,
-    private authService: AuthService,
-    public newPostDialog: MatDialog
+    backendService: BackendService,
+    authService: AuthService,
+    newPostDialog: MatDialog
   ) {
-    this.datePipe = new DatePipe('en-US');
+    this.#datePipe = new DatePipe('en-US');
     this.currentUser = null;
-    this.currentUserSubscription = null;
+    this.#currentUserSubscription = null;
+    this.#backendService = backendService;
+    this.#authService = authService;
+    this.newPostDialog = newPostDialog;
   }
 
   ngOnInit(): void {
-    this.backendService.getPosts().subscribe((posts: Post[]) => {
+    this.#backendService.getPosts().subscribe((posts: Post[]) => {
       this.posts = posts;
     });
-    this.currentUserSubscription = this.authService.currentUserValue.subscribe(
-      (user) => (this.currentUser = user)
-    );
+    this.#currentUserSubscription =
+      this.#authService.currentUserValue.subscribe(
+        (user) => (this.currentUser = user)
+      );
   }
 
   ngOnDestroy() {
-    this.currentUserSubscription?.unsubscribe();
+    this.#currentUserSubscription?.unsubscribe();
   }
 
-  onSearchChange(searchString: string): void {
+  protected onSearchChange(searchString: string): void {
     this.searchString = searchString;
   }
 
-  shouldDisplayPost(post: Post): boolean {
-    const formattedDate = this.datePipe?.transform(
+  protected shouldDisplayPost(post: Post): boolean {
+    const formattedDate = this.#datePipe?.transform(
       post.date ?? '',
       'yyyy-MM-dd, hh:mm'
     );
@@ -63,7 +70,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     );
   }
 
-  newPost(): void {
+  protected newPost(): void {
     const dialog = this.newPostDialog.open(NewpostComponent, {
       width: '30%'
     });

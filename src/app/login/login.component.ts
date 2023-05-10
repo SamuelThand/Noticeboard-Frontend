@@ -9,30 +9,34 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  formSubmitted = false;
-  //TODO blå outline när form blir targeted
-
-  form: FormGroup = new FormGroup({
+  #formSubmitted = false;
+  #authService: AuthService;
+  #router: Router;
+  protected form: FormGroup = new FormGroup({
     userName: new FormControl(null, Validators.required),
     password: new FormControl(null, Validators.required)
   });
+  //TODO blå outline när form blir targeted
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(authService: AuthService, router: Router) {
+    this.#authService = authService;
+    this.#router = router;
+  }
 
-  onSubmit() {
-    this.formSubmitted = true;
+  protected onSubmit() {
+    this.#formSubmitted = true;
     if (this.form.valid) {
-      this.login();
+      this.#login();
     }
   }
 
-  login() {
+  #login() {
     const username = this.form.value['userName'];
     const password = this.form.value['password'];
     if (username && password) {
-      this.authService.login(username, password).subscribe({
+      this.#authService.login(username, password).subscribe({
         next: () => {
-          this.router.navigateByUrl('/');
+          this.#router.navigateByUrl('/');
         },
         error: () => {
           // TODO: Provide error message
@@ -41,8 +45,8 @@ export class LoginComponent {
     }
   }
 
-  showErrorBorder(controlName: string) {
+  protected showErrorBorder(controlName: string) {
     const control = this.form.get(controlName);
-    return control?.invalid && control?.errors && this.formSubmitted;
+    return control?.invalid && control?.errors && this.#formSubmitted;
   }
 }

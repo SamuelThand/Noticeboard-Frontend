@@ -11,21 +11,24 @@ import { User } from '../models/user.model';
 })
 export class PostComponent implements OnInit, OnDestroy {
   protected currentUser: User | null;
-  private currentUserSubscription: Subscription | null;
+  #currentUserSubscription: Subscription | null;
+  #authService: AuthService;
 
-  constructor(private authService: AuthService) {
+  constructor(authService: AuthService) {
     this.currentUser = null;
-    this.currentUserSubscription = null;
+    this.#currentUserSubscription = null;
+    this.#authService = authService;
   }
 
   ngOnInit(): void {
-    this.currentUserSubscription = this.authService.currentUserValue.subscribe(
-      (user) => (this.currentUser = user)
-    );
+    this.#currentUserSubscription =
+      this.#authService.currentUserValue.subscribe(
+        (user) => (this.currentUser = user)
+      );
   }
 
   ngOnDestroy() {
-    this.currentUserSubscription?.unsubscribe();
+    this.#currentUserSubscription?.unsubscribe();
   }
 
   @Input() post: Post = {

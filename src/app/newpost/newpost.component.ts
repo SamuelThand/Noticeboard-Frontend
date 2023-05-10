@@ -9,22 +9,28 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./newpost.component.css']
 })
 export class NewpostComponent {
-  postForm = new FormGroup({
+  public dialog: MatDialogRef<NewpostComponent>;
+  #backendService: BackendService;
+
+  protected postForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
     content: new FormControl('', [Validators.required]),
     tag: new FormControl('', [Validators.required])
   });
 
   constructor(
-    public dialog: MatDialogRef<NewpostComponent>,
-    private backendService: BackendService
-  ) {}
+    dialog: MatDialogRef<NewpostComponent>,
+    backendService: BackendService
+  ) {
+    this.dialog = dialog;
+    this.#backendService = backendService;
+  }
 
-  onSubmit(): void {
+  protected onSubmit(): void {
     if (this.postForm.valid) this.dialog.close(this.postForm.value);
   }
 
-  onNoClick(): void {
+  protected onNoClick(): void {
     this.dialog.close();
   }
 }

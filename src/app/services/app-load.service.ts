@@ -7,11 +7,15 @@ import { catchError } from 'rxjs';
   providedIn: 'root'
 })
 export class AppLoadService {
-  constructor(private authService: AuthService) {}
+  #authService: AuthService;
+
+  constructor(authService: AuthService) {
+    this.#authService = authService;
+  }
 
   initApp(): Promise<any> {
     return firstValueFrom(
-      this.authService.isLoggedIn().pipe(
+      this.#authService.isLoggedIn().pipe(
         catchError((error) => {
           if (error.status === 401) {
             // Not logged in, resolve the promise with false

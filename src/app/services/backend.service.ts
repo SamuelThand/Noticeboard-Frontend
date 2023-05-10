@@ -10,25 +10,25 @@ import { User } from '../models/user.model';
 export class BackendService {
   #url: string = 'http://localhost:3000/';
   // #url: string = 'http://127.0.0.1:3000/';
-  private http: HttpClient;
-  private postEndpoint = this.#url + 'posts/';
-  private userEndpoint = this.#url + 'users/';
+  #http: HttpClient;
+  #postEndpoint = this.#url + 'posts/';
+  #userEndpoint = this.#url + 'users/';
 
   constructor(http: HttpClient) {
-    this.http = http;
+    this.#http = http;
   }
 
-  isLoggedIn(): Observable<HttpResponse<Object>> {
-    return this.http.get(this.userEndpoint + 'isloggedin', {
+  public isLoggedIn(): Observable<HttpResponse<Object>> {
+    return this.#http.get(this.#userEndpoint + 'isloggedin', {
       observe: 'response',
       headers: { 'content-type': 'application/json' },
       withCredentials: true
     });
   }
 
-  signIn(username: string, password: string): Observable<any> {
-    return this.http.post<User>(
-      this.userEndpoint + 'signin',
+  public signIn(username: string, password: string): Observable<any> {
+    return this.#http.post<User>(
+      this.#userEndpoint + 'signin',
       {
         username: username,
         password: password
@@ -40,38 +40,38 @@ export class BackendService {
     );
   }
 
-  signOut(): Observable<any> {
-    return this.http.get(this.userEndpoint + 'signout', {
+  public signOut(): Observable<any> {
+    return this.#http.get(this.#userEndpoint + 'signout', {
       withCredentials: true
     });
   }
 
-  signUp(user: User): Observable<User> {
-    return this.http.post<User>(this.userEndpoint + 'signup', user, {
+  public signUp(user: User): Observable<User> {
+    return this.#http.post<User>(this.#userEndpoint + 'signup', user, {
       headers: { 'Content-Type': 'application/json' }
     });
   }
 
-  getPosts(): Observable<Post[]> {
-    return this.http.get<Post[]>(this.postEndpoint);
+  public getPosts(): Observable<Post[]> {
+    return this.#http.get<Post[]>(this.#postEndpoint);
   }
 
-  addPost(post: Post): Observable<Post> {
-    return this.http.post<Post>(this.postEndpoint, post, {
+  public addPost(post: Post): Observable<Post> {
+    return this.#http.post<Post>(this.#postEndpoint, post, {
       headers: { 'content-type': 'application/json' },
       withCredentials: true
     });
   }
 
-  editPost(id: string, post: Post): Observable<Post> {
-    return this.http.put<Post>(this.postEndpoint + id, post, {
+  public editPost(id: string, post: Post): Observable<Post> {
+    return this.#http.put<Post>(this.#postEndpoint + id, post, {
       headers: { 'content-type': 'application/json' },
       withCredentials: true
     });
   }
 
-  deletePost(id: string): Observable<Post> {
-    return this.http.delete<Post>(this.postEndpoint + id, {
+  public deletePost(id: string): Observable<Post> {
+    return this.#http.delete<Post>(this.#postEndpoint + id, {
       headers: { 'content-type': 'application/json' },
       withCredentials: true
     });

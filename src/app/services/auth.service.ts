@@ -9,21 +9,23 @@ import { map } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private currentUserSubject: BehaviorSubject<User | null>;
-  private currentUser: Observable<User | null>;
+  #currentUserSubject: BehaviorSubject<User | null>;
+  #currentUser: Observable<User | null>;
+  #backendService: BackendService;
 
-  constructor(private backendService: BackendService) {
-    this.currentUserSubject = new BehaviorSubject<User | null>(null);
-    this.currentUser = this.currentUserSubject.asObservable();
+  constructor(backendService: BackendService) {
+    this.#currentUserSubject = new BehaviorSubject<User | null>(null);
+    this.#currentUser = this.#currentUserSubject.asObservable();
+    this.#backendService = backendService;
     this.isLoggedIn().subscribe();
   }
 
-  isLoggedIn(): Observable<boolean> {
-    return this.backendService.isLoggedIn().pipe(
+  public isLoggedIn(): Observable<boolean> {
+    return this.#backendService.isLoggedIn().pipe(
       map((response: HttpResponse<Object>) => {
         const user = response.body as User;
         if (user && user._id) {
-          this.currentUserSubject.next(user);
+          this.#currentUserSubject.next(user);
           return true;
         } else {
           this.logout();
@@ -33,23 +35,23 @@ export class AuthService {
     );
   }
 
-  login(username: string, password: string): Observable<User> {
-    return this.backendService.signIn(username, password).pipe(
+  public login(username: string, password: string): Observable<User> {
+    return this.#backendService.signIn(username, password).pipe(
       map((user: User) => {
         if (user && user._id) {
-          this.currentUserSubject.next(user);
+          this.#currentUserSubject.next(user);
         }
         return user;
       })
     );
   }
 
-  logout() {
-    this.backendService.signOut().subscribe();
-    this.currentUserSubject.next(null);
+  public logout() {
+    this.#backendService.signOut().subscribe();
+    this.#currentUserSubject.next(null);
   }
 
   public get currentUserValue(): Observable<User | null> {
-    return this.currentUser;
+    return this.#currentUser;
   }
 }

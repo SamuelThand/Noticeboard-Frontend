@@ -11,23 +11,29 @@ import { User } from './models/user.model';
 })
 export class AppComponent implements OnInit {
   title = 'dt167g-project-group6-frontend';
-  currentUser: User | null;
+  protected currentUser: User | null;
+  #authService: AuthService;
+  #backendService: BackendService;
+  #router: Router;
 
   constructor(
-    private authService: AuthService,
-    private backendService: BackendService,
-    private router: Router
+    authService: AuthService,
+    backendService: BackendService,
+    router: Router
   ) {
+    this.#authService = authService;
+    this.#backendService = backendService;
+    this.#router = router;
     this.currentUser = null;
   }
 
   ngOnInit() {
-    this.authService.currentUserValue.subscribe(
+    this.#authService.currentUserValue.subscribe(
       (user) => (this.currentUser = user)
     );
   }
 
-  onLogout() {
-    this.authService.logout();
+  protected onLogout() {
+    this.#authService.logout();
   }
 }

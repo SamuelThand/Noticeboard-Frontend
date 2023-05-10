@@ -10,11 +10,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  formSubmitted = false;
-  registerFailed = false; // TODO lägg till popup för failad register
-  //TODO blå outline när form blir targeted
+  #formSubmitted = false;
+  #registerFailed = false; // TODO lägg till popup för failad register, blå outline när form blir targeted
+  #backendService: BackendService;
+  #snackBar: MatSnackBar;
+  #router: Router;
 
-  form: FormGroup = new FormGroup({
+  protected form: FormGroup = new FormGroup({
     firstName: new FormControl('', [
       Validators.required,
       Validators.minLength(1),
@@ -37,36 +39,40 @@ export class RegisterComponent {
   });
 
   constructor(
-    private backendService: BackendService,
-    private snackBar: MatSnackBar,
-    private router: Router
-  ) {}
+    backendService: BackendService,
+    snackBar: MatSnackBar,
+    router: Router
+  ) {
+    this.#backendService = backendService;
+    this.#snackBar = snackBar;
+    this.#router = router;
+  }
 
-  onSubmit() {
-    this.formSubmitted = true;
+  protected onSubmit() {
+    this.#formSubmitted = true;
     if (this.form.valid) {
-      this.submit();
+      this.#submit();
     }
   }
 
-  private submit() {
-    this.backendService.signUp(this.form.value).subscribe({
+  #submit() {
+    this.#backendService.signUp(this.form.value).subscribe({
       next: () => {
-        this.snackBar.open('User has been created', 'Close', {
+        this.#snackBar.open('User has been created', 'Close', {
           duration: 3000
         });
-        this.router.navigateByUrl('/login');
+        this.#router.navigateByUrl('/login');
       },
       error: (message) => {
-        this.snackBar.open(message.error.message, 'Close', {
+        this.#snackBar.open(message.error.message, 'Close', {
           duration: 3000
         });
       }
     });
   }
 
-  showErrorBorder(controlName: string) {
+  protected showErrorBorder(controlName: string) {
     const control = this.form.get(controlName);
-    return control?.invalid && control?.errors && this.formSubmitted;
+    return control?.invalid && control?.errors && this.#formSubmitted;
   }
 }
