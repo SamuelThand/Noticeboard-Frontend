@@ -1,4 +1,6 @@
+import { APP_INITIALIZER } from '@angular/core';
 import { AppComponent } from './app.component';
+import { AppLoadService } from './services/app-load.service';
 import { AppRoutingModule } from './app-routing.module';
 import { BoardComponent } from './board/board.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -17,6 +19,10 @@ import { PostComponent } from './post/post.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import { SearchComponent } from './search/search.component';
+
+export function initApp(appLoadService: AppLoadService) {
+  return () => appLoadService.initApp();
+}
 
 @NgModule({
   declarations: [
@@ -40,7 +46,16 @@ import { SearchComponent } from './search/search.component';
     MatSnackBarModule,
     HttpClientModule
   ],
-  providers: [DatePipe],
+  providers: [
+    DatePipe,
+    AppLoadService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initApp,
+      deps: [AppLoadService],
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

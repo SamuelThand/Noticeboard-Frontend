@@ -34,6 +34,7 @@ export class LoginComponent {
         next: (result) => {
           //TODO reloada app component eller nåt
           this.router.navigateByUrl('/');
+          // this.authService.isLoggedIn();
           console.log(result);
         },
         error: () => {
