@@ -1,29 +1,46 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { BackendService } from '../services/backend.service';
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { NewpostComponent } from '../newpost/newpost.component';
 import { Post } from '../models/post.model';
+import { Subscription } from 'rxjs';
+import { User } from '../models/user.model';
 
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.css']
 })
-export class BoardComponent implements OnInit {
+export class BoardComponent implements OnInit, OnDestroy {
+  protected currentUser: User | null;
+  private currentUserSubscription: Subscription;
   private datePipe: DatePipe;
   protected searchString: string = '';
   protected posts: Post[] = [];
 
-  constructor(private backendService: BackendService, public newPostDialog: MatDialog) {
+  constructor(
+    private backendService: BackendService,
+    private authService: AuthService,
+    public newPostDialog: MatDialog
+  ) {
     this.datePipe = new DatePipe('en-US');
+    this.currentUser = null;
+    this.currentUserSubscription = new Subscription();
   }
 
   ngOnInit(): void {
     this.backendService.getPosts().subscribe((posts: Post[]) => {
       this.posts = posts;
     });
+    this.currentUserSubscription = this.authService.currentUserValue.subscribe(
+      (user) => (this.currentUser = user)
+    );
+  }
+
+  ngOnDestroy() {
+    this.currentUserSubscription.unsubscribe();
   }
 
   onSearchChange(searchString: string): void {

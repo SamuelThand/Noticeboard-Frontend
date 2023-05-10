@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <app-search (searchChange)="onSearchChange($event)"></app-search>
-<div class="create-post-container">
+<div *ngIf="currentUser" class="create-post-container">
   <button mat-button (click)="newPost()" class="create-post">New Post</button>
 </div>
 <section class="posts-container">
