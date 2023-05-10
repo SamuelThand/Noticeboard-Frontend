@@ -1,51 +1,55 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { BackendService } from './backend.service';
+import { HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { User } from '../models/user.model';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private router: Router;
-  private backendService: BackendService;
-  private userSubject: BehaviorSubject<User> | null = null; //TODO ska vi persista detta i frontend eller hämta färskt från server varje gång.
-  user$: Observable<User> | null = null;
+  private currentUserSubject: BehaviorSubject<User | null>;
+  private currentUser: Observable<User | null>;
 
-  constructor(router: Router, backendService: BackendService) {
-    this.router = router;
-    this.backendService = backendService;
+  constructor(private backendService: BackendService) {
+    this.currentUserSubject = new BehaviorSubject<User | null>(null);
+    this.currentUser = this.currentUserSubject.asObservable();
+    this.isLoggedIn().subscribe();
   }
 
-  authCheck(successCallback: Function, errorCallback: Function) {
-    this.backendService.isLoggedIn().subscribe({
-      next: (result) => {
-        if (this.userSubject === null) {
-          this.setUserSubject(result.body as User);
+  isLoggedIn(): Observable<boolean> {
+    return this.backendService.isLoggedIn().pipe(
+      map((response: HttpResponse<Object>) => {
+        const user = response.body as User;
+        if (user && user._id) {
+          this.currentUserSubject.next(user);
+          return true;
+        } else {
+          this.logout();
+          return false;
         }
-        successCallback(result);
-      },
-      error: () => {
-        if (this.userSubject !== null) {
-          this.removeUserSubject();
+      })
+    );
+  }
+
+  login(username: string, password: string) {
+    return this.backendService.signIn(username, password).pipe(
+      map((user: User) => {
+        if (user && user._id) {
+          this.currentUserSubject.next(user);
         }
-        errorCallback();
-      }
-    });
+        return user;
+      })
+    );
   }
 
-  setUserSubject(user: User) {
-    this.userSubject = new BehaviorSubject<User>(user);
-    this.user$ = this.userSubject.asObservable();
-    this.userSubject.next(user);
+  logout() {
+    this.backendService.signOut().subscribe();
+    this.currentUserSubject.next(null);
   }
 
-  removeUserSubject() {
-    this.userSubject = null;
-    this.user$ = null;
+  public get currentUserValue(): Observable<User | null> {
+    return this.currentUser;
   }
 }
-
-//TODO method för att kolla om det finns en session
-//TODO en metod för att hämta ut user objectet för att jämföra

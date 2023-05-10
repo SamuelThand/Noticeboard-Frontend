@@ -6,9 +6,9 @@
       <h1><a routerLink="">The Board</a></h1>
     </div>
     <div class="">
-      <button *ngIf="isLoggedIn" (click)="onLogout()" class="logout" routerLink="/">Logout</button>
-      <button *ngIf="!isLoggedIn" class="login" routerLink="/login">Sign in</button>
-      <button *ngIf="!isLoggedIn" class="register" routerLink="/register">Register</button>
+      <button *ngIf="currentUser" (click)="onLogout()" class="logout" routerLink="/">Logout</button>
+      <button *ngIf="!currentUser" class="login" routerLink="/login">Sign in</button>
+      <button *ngIf="!currentUser" class="register" routerLink="/register">Register</button>
     </div>
   </nav>
 </header>

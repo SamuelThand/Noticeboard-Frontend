@@ -3,56 +3,30 @@ import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { BackendService } from './services/backend.service';
 import { BehaviorSubject } from 'rxjs';
+import { User } from './models/user.model';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+// export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'dt167g-project-group6-frontend';
-  private authService: AuthService;
-  private backendService: BackendService;
-  private router: Router;
-  protected isLoggedIn: boolean;
+  currentUser: User | null;
 
   constructor(
-    authService: AuthService,
-    backendService: BackendService,
-    router: Router
+    private authService: AuthService,
+    private backendService: BackendService,
+    private router: Router
   ) {
-    this.authService = authService;
-    this.backendService = backendService;
-    this.router = router;
-    this.isLoggedIn = false; //TODO Kalla loginstatusfunktion så att den istället evaluerar och returnar true/false direkt
-  }
-
-  ngOnInit(): void {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.loginStatus();
-      }
-    });
-  }
-
-  loginStatus() {
-    this.authService.authCheck(
-      () => {
-        // TODO: Get stored user data like this
-        this.authService.user$?.subscribe((user) => {
-          console.log('Passed from authservice: ' + JSON.stringify(user));
-        });
-        this.isLoggedIn = true;
-      },
-      () => {
-        this.isLoggedIn = false;
-      }
+    this.currentUser = null;
+    this.authService.currentUserValue.subscribe(
+      (user) => (this.currentUser = user) //TODO hur vänta på response innan man laddar sidan
     );
   }
 
   onLogout() {
-    this.backendService.signOut().subscribe(() => {
-      this.loginStatus();
-    });
+    this.authService.logout();
   }
 }

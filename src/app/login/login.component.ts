@@ -1,5 +1,5 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BackendService } from '../services/backend.service';
+import { AuthService } from '../services/auth.service';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -9,10 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  private backendService: BackendService;
-  private router: Router;
   formSubmitted = false;
-  loginFailed = false; // TODO lägg till popup för failad login
   //TODO blå outline när form blir targeted
 
   form: FormGroup = new FormGroup({
@@ -20,10 +17,7 @@ export class LoginComponent {
     password: new FormControl(null, Validators.required)
   });
 
-  constructor(backendService: BackendService, router: Router) {
-    this.backendService = backendService;
-    this.router = router;
-  }
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
     this.formSubmitted = true;
@@ -36,15 +30,14 @@ export class LoginComponent {
     const username = this.form.value['userName'];
     const password = this.form.value['password'];
     if (username && password) {
-      this.backendService.signIn(username, password).subscribe({
+      this.authService.login(username, password).subscribe({
         next: (result) => {
+          //TODO reloada app component eller nåt
           this.router.navigateByUrl('/');
           console.log(result);
         },
         error: () => {
-          // TODO: Remove this and provide a proper response.
-          this.showErrorBorder('userName');
-          this.showErrorBorder('password');
+          // TODO: Provide error message
         }
       });
     }
