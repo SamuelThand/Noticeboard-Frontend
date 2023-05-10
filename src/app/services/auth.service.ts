@@ -33,7 +33,7 @@ export class AuthService {
     );
   }
 
-  login(username: string, password: string) {
+  login(username: string, password: string): Observable<User> {
     return this.backendService.signIn(username, password).pipe(
       map((user: User) => {
         if (user && user._id) {

@@ -12,14 +12,12 @@ import { Post } from '../models/post.model';
   styleUrls: ['./board.component.css']
 })
 export class BoardComponent implements OnInit {
-  private backendService: BackendService;
   private datePipe: DatePipe;
   protected searchString: string = '';
   protected posts: Post[] = [];
 
-  constructor(backendService: BackendService, public newPostDialog: MatDialog) {
+  constructor(private backendService: BackendService, public newPostDialog: MatDialog) {
     this.datePipe = new DatePipe('en-US');
-    this.backendService = backendService;
   }
 
   ngOnInit(): void {

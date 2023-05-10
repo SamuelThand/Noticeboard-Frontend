@@ -18,7 +18,6 @@ export class BackendService {
     this.http = http;
   }
 
-  //TODO varför returna som Object?
   isLoggedIn(): Observable<HttpResponse<Object>> {
     return this.http.get(this.userEndpoint + 'isloggedin', {
       observe: 'response',

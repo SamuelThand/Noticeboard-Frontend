@@ -9,7 +9,6 @@ import { User } from './models/user.model';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-// export class AppComponent implements OnInit {
 export class AppComponent implements OnInit {
   title = 'dt167g-project-group6-frontend';
   currentUser: User | null;

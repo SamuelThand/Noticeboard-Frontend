@@ -31,11 +31,8 @@ export class LoginComponent {
     const password = this.form.value['password'];
     if (username && password) {
       this.authService.login(username, password).subscribe({
-        next: (result) => {
-          //TODO reloada app component eller nåt
+        next: () => {
           this.router.navigateByUrl('/');
-          // this.authService.isLoggedIn();
-          console.log(result);
         },
         error: () => {
           // TODO: Provide error message

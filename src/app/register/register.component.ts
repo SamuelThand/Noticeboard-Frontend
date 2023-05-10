@@ -10,9 +10,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  private backendService: BackendService;
-  private snackBar: MatSnackBar;
-  private router: Router;
   formSubmitted = false;
   registerFailed = false; // TODO lägg till popup för failad register
   //TODO blå outline när form blir targeted
@@ -40,14 +37,10 @@ export class RegisterComponent {
   });
 
   constructor(
-    backendService: BackendService,
-    snackBar: MatSnackBar,
-    router: Router
-  ) {
-    this.backendService = backendService;
-    this.snackBar = snackBar;
-    this.router = router;
-  }
+    private backendService: BackendService,
+    private snackBar: MatSnackBar,
+    private router: Router
+  ) {}
 
   onSubmit() {
     this.formSubmitted = true;
@@ -58,9 +51,7 @@ export class RegisterComponent {
 
   private submit() {
     this.backendService.signUp(this.form.value).subscribe({
-      next: (message) => {
-        console.log(message);
-
+      next: () => {
         this.snackBar.open('User has been created', 'Close', {
           duration: 3000
         });
