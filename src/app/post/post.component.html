@@ -15,8 +15,8 @@
       <div class="buttons-container">
         <i class="ion-heart like-button"></i>
         <i class="ion-heart-broken hate-button"></i>
-        <i class="ion-edit edit-button"></i>
-        <i class="ion-trash-b delete-button"></i>
+        <i *ngIf="currentUser?._id === post.creator" class="ion-edit edit-button"></i>
+        <i *ngIf="currentUser?._id === post.creator" class="ion-trash-b delete-button"></i>
       </div>
     </div>
   </div>

@@ -15,7 +15,7 @@ import { User } from '../models/user.model';
 })
 export class BoardComponent implements OnInit, OnDestroy {
   protected currentUser: User | null;
-  private currentUserSubscription: Subscription;
+  private currentUserSubscription: Subscription | null;
   private datePipe: DatePipe;
   protected searchString: string = '';
   protected posts: Post[] = [];
@@ -27,7 +27,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   ) {
     this.datePipe = new DatePipe('en-US');
     this.currentUser = null;
-    this.currentUserSubscription = new Subscription();
+    this.currentUserSubscription = null;
   }
 
   ngOnInit(): void {
@@ -40,7 +40,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.currentUserSubscription.unsubscribe();
+    this.currentUserSubscription?.unsubscribe();
   }
 
   onSearchChange(searchString: string): void {
