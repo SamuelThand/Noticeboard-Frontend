@@ -78,7 +78,11 @@ export class BoardComponent implements OnInit, OnDestroy {
     //TODO post stuff
 
     dialog.afterClosed().subscribe((result) => {
-      console.log(result);
+      this.#backendService
+        .addPost(result)
+        .subscribe((post) => console.log(post));
+      // console.log(result);
+      //TODO uppdatera postlistan
     });
   }
 }
