@@ -26,7 +26,7 @@ export class PostComponent implements OnInit, OnDestroy {
   #backendService: BackendService;
   #editPostDialog: MatDialog;
 
-  @Output() postDeleted = new EventEmitter<void>(); // Add this line
+  @Output() postEvent = new EventEmitter<void>(); // Add this line
 
   constructor(
     authService: AuthService,
@@ -75,21 +75,16 @@ export class PostComponent implements OnInit, OnDestroy {
 
     dialog.afterClosed().subscribe((result) => {
       if (result) {
-        //TODO edita post med put route
-        //TODO refresha posts
-        // this.#backendService.addPost(result).subscribe(() => {
-        // this.#backendService.getPosts().subscribe((posts: Post[]) => {
-        // this.posts = posts;
-        // });
-        // });
+        this.#backendService.editPost(this.post._id, result).subscribe(() => {
+          this.postEvent.emit();
+        });
       }
     });
   }
 
   protected deletePost() {
     this.#backendService.deletePost(this.post._id).subscribe(() => {
-      console.log('delete');
-      this.postDeleted.emit();
+      this.postEvent.emit();
     });
   }
 }

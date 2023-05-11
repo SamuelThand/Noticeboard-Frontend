@@ -58,7 +58,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.searchString = searchString;
   }
 
-  protected onPostDeleted(): void {
+  protected onPostEvent(): void {
     this.#getPosts();
   }
 
