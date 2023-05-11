@@ -18,7 +18,8 @@ export class BoardComponent implements OnInit, OnDestroy {
   #currentUserSubscription: Subscription | null;
   #backendService: BackendService;
   #authService: AuthService;
-  public newPostDialog: MatDialog;
+  #newPostDialog: MatDialog;
+  // #editPostDialog: MatDialog;
   #datePipe: DatePipe;
   protected searchString: string = '';
   protected posts: Post[] = [];
@@ -33,7 +34,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.#currentUserSubscription = null;
     this.#backendService = backendService;
     this.#authService = authService;
-    this.newPostDialog = newPostDialog;
+    this.#newPostDialog = newPostDialog;
   }
 
   ngOnInit(): void {
@@ -79,7 +80,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   protected newPost(): void {
-    const dialog = this.newPostDialog.open(NewpostComponent, {
+    const dialog = this.#newPostDialog.open(NewpostComponent, {
       width: '30%'
     });
 

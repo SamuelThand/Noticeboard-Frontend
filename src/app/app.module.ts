@@ -19,6 +19,7 @@ import { PostComponent } from './post/post.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import { SearchComponent } from './search/search.component';
+import { EditpostComponent } from './editpost/editpost.component';
 
 export function initApp(appLoadService: AppLoadService) {
   return () => appLoadService.initApp();
@@ -32,7 +33,8 @@ export function initApp(appLoadService: AppLoadService) {
     BoardComponent,
     PostComponent,
     SearchComponent,
-    NewpostComponent
+    NewpostComponent,
+    EditpostComponent
   ],
   imports: [
     BrowserModule,

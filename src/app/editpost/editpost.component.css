@@ -1,0 +1,54 @@
+h2 {
+  text-align: center;
+}
+
+.new-post-form-container {
+  padding-bottom: 0;
+}
+
+.new-post-form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0;
+}
+
+.content {
+  padding-bottom: 10rem;
+  line-height: 10rem;
+  resize: none;
+}
+
+.action-buttons-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.post {
+  color: #fff;
+  background-color: #007bff;
+  font-weight: bold;
+  border: 0;
+  border-radius: 0.2rem;
+  padding: 0.5rem;
+}
+
+.post:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.cancel {
+  color: #fff;
+  background-color: rgb(143, 23, 23);
+  font-weight: bold;
+  border: 0;
+  border-radius: 0.2rem;
+  padding: 0.5rem;
+  margin-left: 1rem;
+}
+
+.cancel:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
