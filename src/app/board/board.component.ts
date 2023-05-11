@@ -19,7 +19,6 @@ export class BoardComponent implements OnInit, OnDestroy {
   #backendService: BackendService;
   #authService: AuthService;
   #newPostDialog: MatDialog;
-  // #editPostDialog: MatDialog;
   #datePipe: DatePipe;
   protected searchString: string = '';
   protected posts: Post[] = [];
