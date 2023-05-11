@@ -31,6 +31,14 @@ export class PostComponent implements OnInit, OnDestroy {
     this.#currentUserSubscription?.unsubscribe();
   }
 
+  getUserName(obj: any): string {
+    return obj.userName;
+  }
+
+  getCreatorID(obj: any): string {
+    return obj._id;
+  }
+
   @Input() post: Post = {
     _id: '',
     creator: '',
