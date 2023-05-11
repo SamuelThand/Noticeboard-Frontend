@@ -88,6 +88,7 @@ export class PostComponent implements OnInit, OnDestroy {
 
   protected deletePost() {
     this.#backendService.deletePost(this.post._id).subscribe(() => {
+      console.log('delete');
       this.postDeleted.emit();
     });
   }
