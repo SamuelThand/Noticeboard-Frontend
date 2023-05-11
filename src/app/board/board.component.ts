@@ -72,7 +72,7 @@ export class BoardComponent implements OnInit, OnDestroy {
 
     return (
       post.title.includes(this.searchString) ||
-      post.creator.includes(this.searchString) ||
+      this.getPostUsername(post).includes(this.searchString) ||
       post.tag.includes(this.searchString) ||
       post.content.includes(this.searchString) ||
       includesDate
@@ -93,5 +93,9 @@ export class BoardComponent implements OnInit, OnDestroy {
         });
       }
     });
+  }
+
+  getPostUsername(post: any): string {
+    return post.creator.userName;
   }
 }
