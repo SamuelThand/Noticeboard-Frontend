@@ -37,9 +37,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.#backendService.getPosts().subscribe((posts: Post[]) => {
-      this.posts = posts;
-    });
+    this.#getPosts();
     this.#currentUserSubscription =
       this.#authService.currentUserValue.subscribe(
         (user) => (this.currentUser = user)
@@ -50,8 +48,18 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.#currentUserSubscription?.unsubscribe();
   }
 
+  #getPosts() {
+    this.#backendService.getPosts().subscribe((posts: Post[]) => {
+      this.posts = posts;
+    });
+  }
+
   protected onSearchChange(searchString: string): void {
     this.searchString = searchString;
+  }
+
+  protected onPostDeleted(): void {
+    this.#getPosts();
   }
 
   protected shouldDisplayPost(post: Post): boolean {
@@ -75,14 +83,14 @@ export class BoardComponent implements OnInit, OnDestroy {
       width: '30%'
     });
 
-    //TODO post stuff
-
     dialog.afterClosed().subscribe((result) => {
-      this.#backendService
-        .addPost(result)
-        .subscribe((post) => console.log(post));
-      // console.log(result);
-      //TODO uppdatera postlistan
+      if (result) {
+        this.#backendService.addPost(result).subscribe(() => {
+          this.#backendService.getPosts().subscribe((posts: Post[]) => {
+            this.posts = posts;
+          });
+        });
+      }
     });
   }
 }
