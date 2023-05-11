@@ -40,6 +40,8 @@
 }
 
 .buttons-container {
+  display: flex;
+  flex-direction: row;
   border-top: 0.1rem solid;
   border-color: #e7e7e7;
   padding-top: 0.5rem;

@@ -25,6 +25,8 @@ export class PostComponent implements OnInit, OnDestroy {
   #authService: AuthService;
   #backendService: BackendService;
   #editPostDialog: MatDialog;
+  protected likes: number;
+  protected hates: number;
 
   @Output() postEvent = new EventEmitter<void>(); // Add this line
 
@@ -38,6 +40,8 @@ export class PostComponent implements OnInit, OnDestroy {
     this.#authService = authService;
     this.#backendService = backendService;
     this.#editPostDialog = editPostDialog;
+    this.likes = 0;
+    this.hates = 0;
   }
 
   ngOnInit(): void {

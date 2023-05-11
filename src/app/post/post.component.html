@@ -13,7 +13,9 @@
     <div class="content-container">
       <p>{{ post.content }}</p>
       <div class="buttons-container">
+        <p>{{likes}}</p>
         <i class="ion-heart like-button"></i>
+        <p>{{hates}}</p>
         <i class="ion-heart-broken hate-button"></i>
         <i *ngIf="currentUser?._id === getCreatorID(post.creator)" (click)="editPost()" class="ion-edit edit-button"></i>
         <i *ngIf="currentUser?._id === getCreatorID(post.creator)" (click)="deletePost()" class="ion-trash-b delete-button"></i>
