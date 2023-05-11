@@ -1,0 +1,47 @@
+<h2 mat-dialog-title>Edit post</h2>
+
+<mat-dialog-content class="new-post-form-container">
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="new-post-form">
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input
+        name="title"
+        maxlength="50"
+        matInput
+        placeholder="Title"
+        formControlName="title"
+      />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Content</mat-label>
+      <textarea
+        class="content"
+        name="content"
+        maxlength="1500"
+        matInput
+        placeholder="Your post.."
+        formControlName="content"
+        type="text"
+      >
+      </textarea>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Tag</mat-label>
+      <input
+        name="tag"
+        maxlength="10"
+        matInput
+        placeholder="Tag"
+        formControlName="tag"
+      />
+    </mat-form-field>
+    <mat-dialog-actions class="action-buttons-container">
+      <button mat-button class="post" type="submit" cdkFocusInitial>
+        Save
+      </button>
+      <button mat-button class="cancel" (click)="onNoClick()">Cancel</button>
+    </mat-dialog-actions>
+  </form>
+</mat-dialog-content>
