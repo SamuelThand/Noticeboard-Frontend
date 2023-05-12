@@ -70,6 +70,28 @@ export class BackendService {
     });
   }
 
+  public likePost(id: string): Observable<Post> {
+    return this.#http.put<Post>(
+      this.#postEndpoint + 'like/' + id,
+      {},
+      {
+        headers: { 'content-type': 'application/json' },
+        withCredentials: true
+      }
+    );
+  }
+
+  public hatePost(id: string): Observable<Post> {
+    return this.#http.put<Post>(
+      this.#postEndpoint + 'hate/' + id,
+      {},
+      {
+        headers: { 'content-type': 'application/json' },
+        withCredentials: true
+      }
+    );
+  }
+
   public deletePost(id: string): Observable<Post> {
     return this.#http.delete<Post>(this.#postEndpoint + id, {
       headers: { 'content-type': 'application/json' },

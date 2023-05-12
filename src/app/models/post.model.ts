@@ -4,6 +4,10 @@ export interface Post {
   title: string;
   content: string;
   date: Date;
+  likes: [];
+  hates: [];
   lastEdited?: Date;
   tag: string;
+  likeStatus?: boolean;
+  hateStatus?: boolean;
 }

@@ -25,8 +25,6 @@ export class PostComponent implements OnInit, OnDestroy {
   #authService: AuthService;
   #backendService: BackendService;
   #editPostDialog: MatDialog;
-  protected likes: number;
-  protected hates: number;
 
   @Output() postEvent = new EventEmitter<void>(); // Add this line
 
@@ -40,8 +38,6 @@ export class PostComponent implements OnInit, OnDestroy {
     this.#authService = authService;
     this.#backendService = backendService;
     this.#editPostDialog = editPostDialog;
-    this.likes = 0;
-    this.hates = 0;
   }
 
   ngOnInit(): void {
@@ -69,6 +65,9 @@ export class PostComponent implements OnInit, OnDestroy {
     title: '',
     content: '',
     date: new Date(),
+    likes: [],
+    hates: [],
+    lastEdited: new Date(),
     tag: ''
   };
 
@@ -83,6 +82,19 @@ export class PostComponent implements OnInit, OnDestroy {
           this.postEvent.emit();
         });
       }
+    });
+  }
+
+  // TODO: Only allow logged in users to like or hate posts
+  protected likePost(): void {
+    this.#backendService.likePost(this.post._id).subscribe(() => {
+      this.postEvent.emit();
+    });
+  }
+
+  protected hatePost(): void {
+    this.#backendService.hatePost(this.post._id).subscribe(() => {
+      this.postEvent.emit();
     });
   }
 
