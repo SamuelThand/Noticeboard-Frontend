@@ -10,6 +10,7 @@ import { AuthService } from '../services/auth.service';
 import { BackendService } from '../services/backend.service';
 import { EditpostComponent } from '../editpost/editpost.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Post } from '../models/post.model';
 import { Subscription } from 'rxjs';
 import { User } from '../models/user.model';
@@ -25,19 +26,22 @@ export class PostComponent implements OnInit, OnDestroy {
   #authService: AuthService;
   #backendService: BackendService;
   #editPostDialog: MatDialog;
+  #snackBar: MatSnackBar;
 
   @Output() postEvent = new EventEmitter<void>(); // Add this line
 
   constructor(
     authService: AuthService,
     backendService: BackendService,
-    editPostDialog: MatDialog
+    editPostDialog: MatDialog,
+    snackBar: MatSnackBar
   ) {
     this.currentUser = null;
     this.#currentUserSubscription = null;
     this.#authService = authService;
     this.#backendService = backendService;
     this.#editPostDialog = editPostDialog;
+    this.#snackBar = snackBar;
   }
 
   ngOnInit(): void {
@@ -107,8 +111,23 @@ export class PostComponent implements OnInit, OnDestroy {
   }
 
   protected deletePost() {
-    this.#backendService.deletePost(this.post._id).subscribe(() => {
-      this.postEvent.emit();
+    // Show confirmation dialog
+    const dialog = this.#snackBar.open(
+      'You are about to delete post: ' +
+        this.post.title +
+        '. Are you sure you want to continue?',
+      'Yes',
+      {
+        duration: 5000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top'
+      }
+    );
+
+    dialog.onAction().subscribe(() => {
+      this.#backendService.deletePost(this.post._id).subscribe(() => {
+        this.postEvent.emit();
+      });
     });
   }
 }
