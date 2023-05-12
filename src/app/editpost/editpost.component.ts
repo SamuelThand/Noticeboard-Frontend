@@ -12,7 +12,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class EditpostComponent {
   public dialog: MatDialogRef<EditpostComponent>;
-  #backendService: BackendService;
 
   protected postForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
@@ -20,12 +19,8 @@ export class EditpostComponent {
     tag: new FormControl('', [Validators.required])
   });
 
-  constructor(
-    dialog: MatDialogRef<EditpostComponent>,
-    backendService: BackendService
-  ) {
+  constructor(dialog: MatDialogRef<EditpostComponent>) {
     this.dialog = dialog;
-    this.#backendService = backendService;
   }
 
   protected onSubmit(): void {
@@ -34,5 +29,15 @@ export class EditpostComponent {
 
   protected onNoClick(): void {
     this.dialog.close();
+  }
+
+  // TODO: find a better way to do this.
+  // This is a workaround to set the values of the form when editing a post.
+  setValues(title: string, content: string, tag: string): void {
+    this.postForm.setValue({
+      title: title,
+      content: content,
+      tag: tag
+    });
   }
 }

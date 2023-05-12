@@ -76,6 +76,14 @@ export class PostComponent implements OnInit, OnDestroy {
       width: '30%'
     });
 
+    // TODO: find a better way to do this.
+    // This is a workaround to set the values of the form when editing a post.
+    dialog.componentInstance.setValues(
+      this.post.title,
+      this.post.content,
+      this.post.tag
+    );
+
     dialog.afterClosed().subscribe((result) => {
       if (result) {
         this.#backendService.editPost(this.post._id, result).subscribe(() => {
