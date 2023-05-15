@@ -8,10 +8,10 @@ import { User } from '../models/user.model';
   providedIn: 'root'
 })
 export class BackendService {
-  #url: string = 'http://localhost:3000/'; //TODO development URL
+  // #url: string = 'http://localhost:3000/'; //TODO development URL
   // #url: string = 'http://127.0.0.1:3000/';
   // #url: string = 'https://localhost:8443/'; //TODO production HTTPS URL
-  // #url: string = 'https://10.55.102.33:8443/'; //TODO production HTTPS URL
+  #url: string = 'https://10.55.102.33:8443/'; //TODO production HTTPS URL
   #http: HttpClient;
   #postEndpoint = this.#url + 'posts/';
   #userEndpoint = this.#url + 'users/';
