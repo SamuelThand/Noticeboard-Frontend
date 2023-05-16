@@ -27,8 +27,7 @@ export class PostComponent implements OnInit, OnDestroy {
   #backendService: BackendService;
   #editPostDialog: MatDialog;
   #snackBar: MatSnackBar;
-
-  @Output() postEvent = new EventEmitter<void>(); // Add this line
+  @Output() postEvent = new EventEmitter<void>();
 
   constructor(
     authService: AuthService,
@@ -63,6 +62,9 @@ export class PostComponent implements OnInit, OnDestroy {
     return obj._id;
   }
 
+  /**
+   * Fields of the post inputted from the ngFor directive in board component
+   */
   @Input() post: Post = {
     _id: '',
     creator: '',
@@ -75,13 +77,15 @@ export class PostComponent implements OnInit, OnDestroy {
     tag: ''
   };
 
+  /**
+   * Open a new editpost component to edit the post, emit the result if
+   * an edit is made successfully.
+   */
   protected editPost(): void {
     const dialog = this.#editPostDialog.open(EditpostComponent, {
       width: '30%'
     });
 
-    // TODO: find a better way to do this.
-    // This is a workaround to set the values of the form when editing a post.
     dialog.componentInstance.setValues(
       this.post.title,
       this.post.content,
@@ -97,7 +101,6 @@ export class PostComponent implements OnInit, OnDestroy {
     });
   }
 
-  // TODO: Only allow logged in users to like or hate posts
   protected likePost(): void {
     this.#backendService.likePost(this.post._id).subscribe(() => {
       this.postEvent.emit();
@@ -111,7 +114,6 @@ export class PostComponent implements OnInit, OnDestroy {
   }
 
   protected deletePost() {
-    // Show confirmation dialog
     const dialog = this.#snackBar.open(
       'You are about to delete post: ' +
         this.post.title +

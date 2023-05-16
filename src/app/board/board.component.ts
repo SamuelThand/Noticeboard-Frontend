@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { BackendService } from '../services/backend.service';
 import { DatePipe } from '@angular/common';
@@ -62,6 +62,12 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.#getPosts();
   }
 
+  /**
+   * Check if a post should be displayed based on the current search string
+   *
+   * @param post
+   * @returns The post should be displayed
+   */
   protected shouldDisplayPost(post: Post): boolean {
     const formattedDate = this.#datePipe?.transform(
       post.date ?? '',

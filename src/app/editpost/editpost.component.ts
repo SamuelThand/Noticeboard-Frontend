@@ -1,9 +1,6 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BackendService } from '../services/backend.service';
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-
-//TODO prefilla fields med tidigare info
 
 @Component({
   selector: 'app-editpost',
@@ -31,8 +28,6 @@ export class EditpostComponent {
     this.dialog.close();
   }
 
-  // TODO: find a better way to do this.
-  // This is a workaround to set the values of the form when editing a post.
   setValues(title: string, content: string, tag: string): void {
     this.postForm.setValue({
       title: title,

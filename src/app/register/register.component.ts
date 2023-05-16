@@ -10,13 +10,6 @@ import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
-function checkPasswords(group: AbstractControl): ValidationErrors | null {
-  const password = (group as FormGroup).get('password')?.value;
-  const confirmPassword = (group as FormGroup).get('confirmPassword')?.value;
-
-  return password === confirmPassword ? null : { notSame: true };
-}
-
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -24,7 +17,6 @@ function checkPasswords(group: AbstractControl): ValidationErrors | null {
 })
 export class RegisterComponent {
   #formSubmitted = false;
-  #registerFailed = false; // TODO lägg till popup för failad register, blå outline när form blir targeted
   #backendService: BackendService;
   #snackBar: MatSnackBar;
   #router: Router;
@@ -56,7 +48,7 @@ export class RegisterComponent {
       ]),
       confirmPassword: new FormControl('', [Validators.required])
     },
-    { validators: [checkPasswords] }
+    { validators: [this.#checkPasswords] }
   );
 
   constructor(
@@ -67,6 +59,19 @@ export class RegisterComponent {
     this.#backendService = backendService;
     this.#snackBar = snackBar;
     this.#router = router;
+  }
+
+  /**
+   * Validator that checks that the passwords match
+   *
+   * @param group Formgroup
+   * @returns Validation errors or null
+   */
+  #checkPasswords(group: AbstractControl): ValidationErrors | null {
+    const password = (group as FormGroup).get('password')?.value;
+    const confirmPassword = (group as FormGroup).get('confirmPassword')?.value;
+
+    return password === confirmPassword ? null : { notSame: true };
   }
 
   protected onSubmit() {
@@ -92,6 +97,12 @@ export class RegisterComponent {
     });
   }
 
+  /**
+   * Show an error border if the field is invalid
+   *
+   * @param controlName Name of the field
+   * @returns The field is invalid an the form as been submitted
+   */
   protected showErrorBorder(controlName: string) {
     const control = this.form.get(controlName);
     return control?.invalid && control?.errors && this.#formSubmitted;

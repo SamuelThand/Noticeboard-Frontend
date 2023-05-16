@@ -1,5 +1,4 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BackendService } from '../services/backend.service';
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
@@ -10,7 +9,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class NewpostComponent {
   public dialog: MatDialogRef<NewpostComponent>;
-  #backendService: BackendService;
 
   protected postForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
@@ -18,12 +16,8 @@ export class NewpostComponent {
     tag: new FormControl('', [Validators.required])
   });
 
-  constructor(
-    dialog: MatDialogRef<NewpostComponent>,
-    backendService: BackendService
-  ) {
+  constructor(dialog: MatDialogRef<NewpostComponent>) {
     this.dialog = dialog;
-    this.#backendService = backendService;
   }
 
   protected onSubmit(): void {

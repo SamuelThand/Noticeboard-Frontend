@@ -48,11 +48,12 @@
       <div
         class="error-message"
         [style.visibility]="
-        form.get('password')?.hasError('pattern') &&
-        form.get('password')?.touched
-          ? 'visible'
-          : 'hidden'
-      ">
+          form.get('password')?.hasError('pattern') &&
+          form.get('password')?.touched
+            ? 'visible'
+            : 'hidden'
+        "
+      >
         Minimum length is 10 and must contain uppercase, lowercase, symbols, and
         numbers.
       </div>

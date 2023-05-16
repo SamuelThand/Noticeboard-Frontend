@@ -8,10 +8,7 @@ import { User } from '../models/user.model';
   providedIn: 'root'
 })
 export class BackendService {
-  #url: string = 'http://localhost:3000/'; //TODO development URL
-  // #url: string = 'http://127.0.0.1:3000/';
-  // #url: string = 'https://localhost:8443/'; //TODO production HTTPS URL
-  // #url: string = 'https://10.55.102.33:8443/'; //TODO production HTTPS URL
+  #url: string = 'http://localhost:3000/';
   #http: HttpClient;
   #postEndpoint = this.#url + 'posts/';
   #userEndpoint = this.#url + 'users/';
@@ -20,6 +17,11 @@ export class BackendService {
     this.#http = http;
   }
 
+  /**
+   * Check if there is an active session
+   *
+   * @returns The logged in user
+   */
   public isLoggedIn(): Observable<HttpResponse<Object>> {
     return this.#http.get(this.#userEndpoint + 'isloggedin', {
       observe: 'response',
@@ -28,6 +30,13 @@ export class BackendService {
     });
   }
 
+  /**
+   * Log in
+   *
+   * @param username
+   * @param password
+   * @returns The logged in user
+   */
   public signIn(username: string, password: string): Observable<any> {
     return this.#http.post<User>(
       this.#userEndpoint + 'signin',
@@ -42,22 +51,43 @@ export class BackendService {
     );
   }
 
+  /**
+   * Log out
+   *
+   * @returns Status message
+   */
   public signOut(): Observable<any> {
     return this.#http.get(this.#userEndpoint + 'signout', {
       withCredentials: true
     });
   }
 
+  /**
+   * Register a user
+   *
+   * @param user
+   * @returns The new user
+   */
   public signUp(user: User): Observable<User> {
     return this.#http.post<User>(this.#userEndpoint + 'signup', user, {
       headers: { 'Content-Type': 'application/json' }
     });
   }
 
+  /**
+   * Get all posts
+   *
+   * @returns Posts
+   */
   public getPosts(): Observable<Post[]> {
     return this.#http.get<Post[]>(this.#postEndpoint);
   }
 
+  /**
+   * Create a post
+   *
+   * @returns The new post
+   */
   public addPost(post: Post): Observable<Post> {
     return this.#http.post<Post>(this.#postEndpoint, post, {
       headers: { 'content-type': 'application/json' },
@@ -65,6 +95,11 @@ export class BackendService {
     });
   }
 
+  /**
+   * Edit a post
+   *
+   * @returns The edited post
+   */
   public editPost(id: string, post: Post): Observable<Post> {
     return this.#http.put<Post>(this.#postEndpoint + id, post, {
       headers: { 'content-type': 'application/json' },
@@ -72,6 +107,11 @@ export class BackendService {
     });
   }
 
+  /**
+   * Like a post
+   *
+   * @returns The liked post
+   */
   public likePost(id: string): Observable<Post> {
     return this.#http.put<Post>(
       this.#postEndpoint + 'like/' + id,
@@ -83,6 +123,11 @@ export class BackendService {
     );
   }
 
+  /**
+   * Hate a post
+   *
+   * @returns The hated post
+   */
   public hatePost(id: string): Observable<Post> {
     return this.#http.put<Post>(
       this.#postEndpoint + 'hate/' + id,
@@ -94,6 +139,12 @@ export class BackendService {
     );
   }
 
+  /**
+   * Delete a post
+   *
+   * @param id The post id
+   * @returns The deleted post
+   */
   public deletePost(id: string): Observable<Post> {
     return this.#http.delete<Post>(this.#postEndpoint + id, {
       headers: { 'content-type': 'application/json' },

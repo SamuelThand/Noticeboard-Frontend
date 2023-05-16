@@ -1,6 +1,7 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { Component } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,15 +12,16 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   #formSubmitted = false;
   #authService: AuthService;
+  #snackBar: MatSnackBar;
   #router: Router;
   protected form: FormGroup = new FormGroup({
     userName: new FormControl(null, Validators.required),
     password: new FormControl(null, Validators.required)
   });
-  //TODO blå outline när form blir targeted
 
-  constructor(authService: AuthService, router: Router) {
+  constructor(authService: AuthService, snackBar: MatSnackBar, router: Router) {
     this.#authService = authService;
+    this.#snackBar = snackBar;
     this.#router = router;
   }
 
@@ -38,8 +40,10 @@ export class LoginComponent {
         next: () => {
           this.#router.navigateByUrl('/');
         },
-        error: () => {
-          // TODO: Provide error message
+        error: (message) => {
+          this.#snackBar.open(message.error.message, 'Close', {
+            duration: 3000
+          });
         }
       });
     }

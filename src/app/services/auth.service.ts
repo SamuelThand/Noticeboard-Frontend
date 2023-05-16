@@ -20,6 +20,11 @@ export class AuthService {
     this.isLoggedIn().subscribe();
   }
 
+  /**
+   * Check if there is a user logged in.
+   *
+   * @returns A user is logged in
+   */
   public isLoggedIn(): Observable<boolean> {
     return this.#backendService.isLoggedIn().pipe(
       map((response: HttpResponse<Object>) => {
@@ -35,6 +40,12 @@ export class AuthService {
     );
   }
 
+  /**
+   * Logs in, and sets the value of the current user subject to be the
+   * logged in user.
+   *
+   * @returns The logged in user
+   */
   public login(username: string, password: string): Observable<User> {
     return this.#backendService.signIn(username, password).pipe(
       map((user: User) => {
@@ -46,6 +57,9 @@ export class AuthService {
     );
   }
 
+  /**
+   * Logs out, and sets the current user subject to be null.
+   */
   public logout() {
     this.#backendService.signOut().subscribe();
     this.#currentUserSubject.next(null);
