@@ -18,12 +18,12 @@
         <p>{{ post.hates.length }}</p>
         <i class="ion-heart-broken hate-button" (click)="hatePost()"></i>
         <i
-          *ngIf="currentUser?._id === getCreatorID(post.creator)"
+          *ngIf="currentUser?._id === getCreatorID(post.creator) || currentUser?.isAdmin"
           (click)="editPost()"
           class="ion-edit edit-button"
         ></i>
         <i
-          *ngIf="currentUser?._id === getCreatorID(post.creator)"
+          *ngIf="currentUser?._id === getCreatorID(post.creator) || currentUser?.isAdmin"
           (click)="deletePost()"
           class="ion-trash-b delete-button"
         ></i>

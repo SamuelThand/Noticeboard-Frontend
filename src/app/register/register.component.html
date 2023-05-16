@@ -38,6 +38,36 @@
       />
     </div>
     <div class="form-group">
+      <label for="password">Confirm password</label>
+      <input
+        type="password"
+        class="form-control"
+        formControlName="confirmPassword"
+        [ngClass]="{ 'error-border': showErrorBorder('confirmPassword') }"
+      />
+      <div
+        class="error-message"
+        [style.visibility]="
+        form.get('password')?.hasError('pattern') &&
+        form.get('password')?.touched
+          ? 'visible'
+          : 'hidden'
+      ">
+        Minimum length is 10 and must contain uppercase, lowercase, symbols, and
+        numbers.
+      </div>
+    </div>
+    <div
+      class="error-message"
+      [style.visibility]="
+        form.hasError('notSame') && form.get('password')?.touched
+          ? 'visible'
+          : 'hidden'
+      "
+    >
+      Passwords must match.
+    </div>
+    <div class="form-group">
       <button type="submit">Register</button>
     </div>
   </form>

@@ -1,8 +1,21 @@
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  Validators
+} from '@angular/forms';
 import { BackendService } from '../services/backend.service';
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+
+function checkPasswords(group: AbstractControl): ValidationErrors | null {
+  const password = (group as FormGroup).get('password')?.value;
+  const confirmPassword = (group as FormGroup).get('confirmPassword')?.value;
+
+  return password === confirmPassword ? null : { notSame: true };
+}
 
 @Component({
   selector: 'app-register',
@@ -16,27 +29,35 @@ export class RegisterComponent {
   #snackBar: MatSnackBar;
   #router: Router;
 
-  protected form: FormGroup = new FormGroup({
-    firstName: new FormControl('', [
-      Validators.required,
-      Validators.minLength(1),
-      Validators.maxLength(60)
-    ]),
-    lastName: new FormControl('', [
-      Validators.required,
-      Validators.minLength(1),
-      Validators.maxLength(60)
-    ]),
-    userName: new FormControl('', [
-      Validators.required,
-      Validators.minLength(6),
-      Validators.maxLength(30)
-    ]),
-    password: new FormControl('', [
-      Validators.required,
-      Validators.minLength(6)
-    ])
-  });
+  protected form: FormGroup = new FormGroup(
+    {
+      firstName: new FormControl('', [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(60)
+      ]),
+      lastName: new FormControl('', [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(60)
+      ]),
+      userName: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(30)
+      ]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(124),
+        Validators.pattern(
+          '^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-+_!@#$%^&*.,?]).{10,124}$'
+        )
+      ]),
+      confirmPassword: new FormControl('', [Validators.required])
+    },
+    { validators: [checkPasswords] }
+  );
 
   constructor(
     backendService: BackendService,
