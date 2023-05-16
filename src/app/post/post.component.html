@@ -14,16 +14,30 @@
       <p>{{ post.content }}</p>
       <div class="buttons-container">
         <p>{{ post.likes.length }}</p>
-        <i class="ion-heart like-button" (click)="likePost()"></i>
-        <p>{{ post.hates.length }}</p>
-        <i class="ion-heart-broken hate-button" (click)="hatePost()"></i>
         <i
-          *ngIf="currentUser?._id === getCreatorID(post.creator)"
+          [ngClass]="{ disabled: !currentUser }"
+          class="ion-heart like-button"
+          (click)="likePost()"
+        ></i>
+        <p>{{ post.hates.length }}</p>
+        <i
+          [ngClass]="{ disabled: !currentUser }"
+          class="ion-heart-broken hate-button"
+          (click)="hatePost()"
+        ></i>
+        <i
+          *ngIf="
+            currentUser?._id === getCreatorID(post.creator) ||
+            currentUser?.isAdmin
+          "
           (click)="editPost()"
           class="ion-edit edit-button"
         ></i>
         <i
-          *ngIf="currentUser?._id === getCreatorID(post.creator)"
+          *ngIf="
+            currentUser?._id === getCreatorID(post.creator) ||
+            currentUser?.isAdmin
+          "
           (click)="deletePost()"
           class="ion-trash-b delete-button"
         ></i>

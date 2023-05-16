@@ -1,4 +1,10 @@
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  Validators
+} from '@angular/forms';
 import { BackendService } from '../services/backend.service';
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -11,32 +17,39 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent {
   #formSubmitted = false;
-  #registerFailed = false; // TODO lägg till popup för failad register, blå outline när form blir targeted
   #backendService: BackendService;
   #snackBar: MatSnackBar;
   #router: Router;
 
-  protected form: FormGroup = new FormGroup({
-    firstName: new FormControl('', [
-      Validators.required,
-      Validators.minLength(1),
-      Validators.maxLength(60)
-    ]),
-    lastName: new FormControl('', [
-      Validators.required,
-      Validators.minLength(1),
-      Validators.maxLength(60)
-    ]),
-    userName: new FormControl('', [
-      Validators.required,
-      Validators.minLength(6),
-      Validators.maxLength(30)
-    ]),
-    password: new FormControl('', [
-      Validators.required,
-      Validators.minLength(6)
-    ])
-  });
+  protected form: FormGroup = new FormGroup(
+    {
+      firstName: new FormControl('', [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(60)
+      ]),
+      lastName: new FormControl('', [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(60)
+      ]),
+      userName: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(30)
+      ]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(124),
+        Validators.pattern(
+          '^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-+_!@#$%^&*.,?]).{10,124}$'
+        )
+      ]),
+      confirmPassword: new FormControl('', [Validators.required])
+    },
+    { validators: [this.#checkPasswords] }
+  );
 
   constructor(
     backendService: BackendService,
@@ -46,6 +59,19 @@ export class RegisterComponent {
     this.#backendService = backendService;
     this.#snackBar = snackBar;
     this.#router = router;
+  }
+
+  /**
+   * Validator that checks that the passwords match
+   *
+   * @param group Formgroup
+   * @returns Validation errors or null
+   */
+  #checkPasswords(group: AbstractControl): ValidationErrors | null {
+    const password = (group as FormGroup).get('password')?.value;
+    const confirmPassword = (group as FormGroup).get('confirmPassword')?.value;
+
+    return password === confirmPassword ? null : { notSame: true };
   }
 
   protected onSubmit() {
@@ -71,6 +97,12 @@ export class RegisterComponent {
     });
   }
 
+  /**
+   * Show an error border if the field is invalid
+   *
+   * @param controlName Name of the field
+   * @returns The field is invalid an the form as been submitted
+   */
   protected showErrorBorder(controlName: string) {
     const control = this.form.get(controlName);
     return control?.invalid && control?.errors && this.#formSubmitted;

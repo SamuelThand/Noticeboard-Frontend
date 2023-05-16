@@ -9,6 +9,9 @@ export class SearchComponent {
   protected searchString: string = '';
   @Output() searchChange = new EventEmitter<string>();
 
+  /**
+   * Emit the search string to the board component
+   */
   protected onSearchChange(): void {
     this.searchChange.emit(this.searchString);
   }

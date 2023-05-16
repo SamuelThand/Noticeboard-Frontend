@@ -64,3 +64,9 @@ button:hover {
 .error-border {
   border-color: red;
 }
+
+.error-message {
+  color: red;
+  font-size: 0.8rem;
+  visibility: hidden;
+}
