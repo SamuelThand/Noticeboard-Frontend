@@ -1,5 +1,7 @@
 # Noticeboard-Frontend 
 
+Built in Angular.
+
 Requirements for the applications:
 
     Users can register and log in.
